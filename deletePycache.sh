@@ -1,2 +1,2 @@
 #!/bin/bash
-find . -name __pycache__ -type f -exec rm -Rf {} \;
+find . -name __pycache__ -type d -exec rm -Rf {} \;
