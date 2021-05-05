@@ -1,4 +1,15 @@
 #Fichier contenant la classe abstraite permettant de lancer une attaque
+#Lorsque vous codez votre attaque, appelez votre classe Attaque
+"""
+from .abstract import Abstract
+
+class Attaque(Abstract):
+    def __init__(self, cibles, ref):
+        Abstract.__init__(cibles, ref)
+    
+    def run(self):
+        pass
+"""
 #Imports
 from ..utils import formatLog
 
@@ -7,45 +18,59 @@ class Abstract():
     """
     Classe à hériter
     """
-    def __init__(self, refLoop):
+    def __init__(self, cibles, refLoop):
         """
         Constructeur
+        :param cibles:  Un dictionnaire de la forme {"ip" : [ports, ports, ports], ...}
         :param refLoop: Référence vers la classe contenant la boucle d'éxecution
         """
+        self.cibles  = cibles
         self.refLoop = refLoop
         self.logs    = self.refLoop.logsAttaque
     
+    def log(self, severite, data):
+        """
+        Génère un log
+        :param severite: La séverité choisie
+        :param data:     La donnée
+        """
+        log = formatLog(severite, data)
+        self.logs.put(log)
+
     def info(self, data):
         """
         Génère un log d'info
         :param data: La donnée
         """
-        log = formatLog("info", data)
-        self.logs.put(log)
+        self.log("info", data)
 
     def warn(self, data):
         """
         Génère un log d'avertissement
         :param data: La donnée
         """
-        log = formatLog("warn", data)
-        self.logs.put(log)
+        self.log("warn", data)
 
     def error(self, data):
         """
         Génère un log d'erreur
         :param data: La donnée
         """
-        log = formatLog("error", data)
-        self.logs.put(log)
+        self.log("error", data)
 
     def crit(self, data):
         """
         Génère un log critique
         :param data: La donnée
         """
-        log = formatLog("crit", data)
-        self.logs.put(log)
+        self.log("crit", data)
+
+    def bilan(self, data):
+        """
+        Génère un log bilan
+        :param data: La donnée
+        """
+        self.log("bilan", data)
 
     def run(self):
         """
