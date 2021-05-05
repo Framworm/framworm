@@ -1,6 +1,7 @@
 #Imports
 from datetime import datetime
 from socket   import gethostname
+from sys      import exit
 
 #Fonctions
 def formatLog(severite, data):
@@ -12,3 +13,5 @@ def formatLog(severite, data):
     date     = str(datetime.now()).replace(" ", "_")
     hostorip = gethostname()
     return f"<{severite}> {date} {hostorip} {data}"
+
+endOfProgramm = lambda: exit(0)
