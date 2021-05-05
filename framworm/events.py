@@ -1,7 +1,11 @@
 #Imports
-from .utils import endOfProgramm
-from queue  import Queue as FIFO
-from signal import signal, SIGKILL, SIGTERM
+from .utils          import endOfProgramm
+from .actions        import __all__                  as ACTIONS
+from .attaques       import __all__                  as ATTAQUES
+from .dissimulations import __all__                  as DISSIMULATIONS
+from queue           import Queue                    as FIFO
+from signal          import signal, SIGKILL
+from importlib       import import_module
 
 #Classes
 class Events():
@@ -13,8 +17,8 @@ class Events():
         Constructeur de la classe
         """
         signal(SIGKILL, endOfProgramm)
-        signal(SIGTERM, endOfProgramm)
         self.isStart = True
+        print(ACTIONS, ATTAQUES, DISSIMULATIONS)
 
     def run(self):
         """
@@ -22,7 +26,9 @@ class Events():
         """
         self.isStart = True
         while self.isStart:
-            pass
+            for action in ACTIONS:
+                pkg = import_module(action)
+                
     
     def stop(self):
         """

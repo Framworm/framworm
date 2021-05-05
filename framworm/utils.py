@@ -1,6 +1,6 @@
 #Imports
 from datetime import datetime
-from socket   import gethostname
+from socket   import getfqdn, socket, AF_INET, SOCK_STREAM
 from sys      import exit
 
 #Fonctions
@@ -11,7 +11,21 @@ def formatLog(severite, data):
     :param data:     La donnée du log
     """
     date     = str(datetime.now()).replace(" ", "_")
-    hostorip = gethostname()
+    hostorip = getfqdn()
     return f"<{severite}> {date} {hostorip} {data}"
 
 endOfProgramm = lambda: exit(0)
+
+def getIp():
+    with socket(AF_INET, SOCK_STREAM) as s:
+        s.connect(("8.8.8.8", 53))
+        return s.getsockname()[0]
+    
+def getMask(ip):
+    pre = int(ip.split(".")[0])
+    if pre < 128:
+        return 8
+    elif pre < 192:
+        return 16
+    else:
+        return 24
