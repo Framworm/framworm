@@ -29,3 +29,14 @@ def getMask(ip):
         return 16
     else:
         return 24
+
+def queueToList(q):
+    """
+    Transforme une queue en liste
+    """
+    ret = []
+    while True:
+        try:
+            ret.append(q.get_nowait())
+        except:
+            return ret

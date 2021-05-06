@@ -19,9 +19,12 @@ class Events():
         Constructeur de la classe
         """
         signal(SIGTERM, endOfProgramm)
-        self.isStart = True
-        self.cibles  = {}
-
+        self.isStart           = True
+        self.cibles            = {}
+        self.logsAction        = FIFO()
+        self.logsAttaque       = FIFO()
+        self.logsDissimulation = FIFO()
+        
     def run(self):
         """
         Méthode principale, permet de lancer la boucle pseudo infinie qui gère notre vers
