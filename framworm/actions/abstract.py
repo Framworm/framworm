@@ -1,9 +1,9 @@
-#Fichier contenant la classe abstraite permettant de lancer une attaque
-#Lorsque vous codez votre attaque, appelez votre classe Attaque
+#Fichier contenant la classe abstraite permettant de lancer une Action
+#Lorsque vous codez votre Action, appelez votre classe Action
 """
 from .abstract import Abstract
 
-class Attaque(Abstract):
+class Action(Abstract):
     def __init__(self, ref):
         Abstract.__init__(cibles, ref)
     
@@ -25,7 +25,7 @@ class Abstract():
         """
         self.refLoop = refLoop
         self.cibles  = self.refLoop.cibles
-        self.logs    = self.refLoop.logsAttaque
+        self.logs    = self.refLoop.logsAction
     
     def log(self, severite, data):
         """
@@ -73,7 +73,7 @@ class Abstract():
 
     def run(self):
         """
-        Méthode à surcharger pour éxecuter notre attaque
+        Méthode à surcharger pour éxecuter notre action
         :return: True si a réussi, sinon False
         """
         pass
