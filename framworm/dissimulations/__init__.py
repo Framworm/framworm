@@ -8,6 +8,6 @@ for imp, module, ispackage in pkgutil.walk_packages(path=__path__, prefix=__name
 
 del pkgutil
 try:
-  del module, imp, ispackage
+  del [module, imp, ispackage]
 except:
   pass
