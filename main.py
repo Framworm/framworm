@@ -1,4 +1,5 @@
 #Imports
 from framworm import events
 
-events.Events()
+ev = events.Events()
+ev.run()

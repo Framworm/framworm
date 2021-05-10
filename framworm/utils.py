@@ -1,8 +1,9 @@
 #Imports
-from datetime import datetime
-from socket   import getfqdn, socket, AF_INET, SOCK_STREAM
-from sys      import exit
-
+from datetime   import datetime
+from socket     import getfqdn, socket, AF_INET, SOCK_STREAM
+from sys        import exit
+from subprocess import Popen, PIPE
+from platform   import system as osname
 #Fonctions
 def formatLog(severite, data):
     """
@@ -40,3 +41,16 @@ def queueToList(q):
             ret.append(q.get_nowait())
         except:
             return ret
+
+def ping(ip):
+    """
+    :param ip: L'ip à ping
+    :return:   True si accessible, sinon False
+    """
+    commande = f"ping {'-n 1' if osname() == 'Windows' else '-c 1'} {ip}".split()
+    proc     = Popen(commande, stdin=PIPE, stdout=PIPE, stderr=PIPE)
+    proc.communicate()
+    if proc.returncode == 0:
+        return True
+    else:
+        return False
