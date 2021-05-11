@@ -6,15 +6,16 @@ from subprocess import run, TimeoutExpired
 from platform   import system as osname
 
 #Fonctions
-def formatLog(severite, data):
+def formatLog(_type, severite, data):
     """
-    Retourne un log au format : '<SEVERITE> TIMESTAMP HOSTORIP DATA'
+    Retourne un log au format : '<TYPE:SEVERITE>TIMESTAMP IP:HOST DATA'
+    :param _type:    Le type de log
     :param severite: Niveau de severite du log
     :param data:     La donnée du log
     """
-    date     = str(datetime.now()).replace(" ", "_")
+    date     = str(datetime.now())
     hostorip = getfqdn()
-    return f"<{severite}> {date} {hostorip} {data}"
+    return f"<{_type}:{severite}>{date} {getIp()}:{hostorip} {data}"
 
 endOfProgramm = lambda: exit(0)
 

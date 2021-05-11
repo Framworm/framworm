@@ -1,5 +1,5 @@
 #Imports
-from .utils          import endOfProgramm
+from .utils          import endOfProgramm, queueToList
 from .nmap           import nmap
 from .actions        import __all__                  as ACTIONS
 from .attaques       import __all__                  as ATTAQUES
@@ -20,10 +20,7 @@ class Events():
         """
         signal(SIGTERM, endOfProgramm)
         self.isStart           = True
-        self.logGeneraux       = FIFO()
-        self.logsAction        = FIFO()
-        self.logsAttaque       = FIFO()
-        self.logsDissimulation = FIFO()
+        self.logs              = FIFO()
         
     def run(self):
         """

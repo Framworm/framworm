@@ -15,6 +15,7 @@ class Attaque(Abstract):
                     passwd = passwd.strip()
                     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
                     try:
+                        self.info(f"Try to connect with ssh to {self.host}:{self.port} with user={user},password={passwd}")
                         client.connect(self.host, port=self.port, username=user, password=passwd)
                         client.close()
                         self.bilan(f"ssh_bruteforce{[self.host, user,passwd]}")

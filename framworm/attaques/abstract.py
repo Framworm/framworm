@@ -11,6 +11,7 @@ class Attaque(Abstract):
         pass
 """
 #Imports
+from base64  import b64encode
 from ..utils import formatLog
 
 #Classes
@@ -28,8 +29,6 @@ class Abstract():
         self.refLoop = refLoop
         self.host    = host
         self.port    = port
-        self.cibles  = self.refLoop.cibles
-        self.logs    = self.refLoop.logsAttaque
     
     def log(self, severite, data):
         """
@@ -37,8 +36,8 @@ class Abstract():
         :param severite: La séverité choisie
         :param data:     La donnée
         """
-        log = formatLog(severite, data)
-        self.logs.put(log)
+        log = formatLog("attaque", severite, b64encode(data.encode()).hex())
+        self.refLoop.logs.put_nowait(log)
 
     def info(self, data):
         """

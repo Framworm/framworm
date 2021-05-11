@@ -1,7 +1,7 @@
 #Imports
 from .config   import IP_TO_SCAN, PORTS_TO_SCAN, NMAP_PORT_TIMEOUT
 from .utils    import formatLog, ping
-from socket    import socket, timeout, SOCK_STREAM, AF_INET
+from socket    import socket, timeout, error, SOCK_STREAM, AF_INET
 from base64    import b64encode
 
 def nmap(inst):
@@ -20,5 +20,7 @@ def nmap(inst):
                     yield (ip, port)
                 except timeout:
                     pass
+                except error:
+                    pass
                 except Exception as e:
-                    inst.logGeneraux.put_nowait(formatLog("error", b64encode(str(e).encode())))
+                    inst.logs.put_nowait(formatLog("general", "error", b64encode((f"Port:{port} | " + str(e)).encode()).hex()))
