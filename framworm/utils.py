@@ -2,8 +2,9 @@
 from datetime   import datetime
 from socket     import getfqdn, socket, AF_INET, SOCK_STREAM
 from sys        import exit
-from subprocess import Popen, PIPE
+from subprocess import run, TimeoutExpired
 from platform   import system as osname
+
 #Fonctions
 def formatLog(severite, data):
     """
@@ -42,14 +43,18 @@ def queueToList(q):
         except:
             return ret
 
-def ping(ip):
+def ping(ip, timeout):
     """
     :param ip: L'ip à ping
     :return:   True si accessible, sinon False
     """
     commande = f"ping {'-n 1' if osname() == 'Windows' else '-c 1'} {ip}".split()
-    proc     = Popen(commande, stdin=PIPE, stdout=PIPE, stderr=PIPE)
-    proc.communicate()
+
+    try:
+        proc = run(commande, timeout=timeout, capture_output=True)
+    except TimeoutExpired:
+        return False
+
     if proc.returncode == 0:
         return True
     else:

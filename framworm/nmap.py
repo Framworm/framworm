@@ -7,29 +7,18 @@ from base64    import b64encode
 def nmap(inst):
     """
     :param inst: Référence de la classe Event
-    :return: Un dictionnaire de type {ip : [port1, port2, ...], ...}
+    :return: Un tuple (host, port)
     """
-    ips = []
-    ret = {}
     for ip in IP_TO_SCAN:
-        print(ip)
-        if ping(ip) == True:
-            ips.append(ip)
-
-    for ip in ips:
-        ports = []
+        if ping(ip, NMAP_PORT_TIMEOUT) == False:
+            continue
         for port in PORTS_TO_SCAN:
             with socket(AF_INET, SOCK_STREAM) as s:
                 s.settimeout(NMAP_PORT_TIMEOUT)
                 try:
                     s.connect((str(ip), port))
-                    ports.append(port)
+                    yield (ip, port)
                 except timeout:
                     pass
                 except Exception as e:
                     inst.logGeneraux.put_nowait(formatLog("error", b64encode(str(e).encode())))
-
-        if ports != []:
-            ret[ip] = ports
-    
-    return ret

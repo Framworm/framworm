@@ -3,12 +3,11 @@ import paramiko
 
 class Attaque(Abstract):
     def __init__(self, ref, host, port):
-
-        Abstract.__init__(ref, host, port)
+        Abstract.__init__(self, ref, host, port)
     
     def run(self):
         client = paramiko.SSHClient()
-        with open("../files/wordlists/rockworm.txt") as wordlist:
+        with open("framworm/files/wordlists/rockworm.txt", "r") as wordlist:
             words = wordlist.readlines()
             for user in words:
                 user = user.strip()
