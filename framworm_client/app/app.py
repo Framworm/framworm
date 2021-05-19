@@ -1,7 +1,7 @@
 #Imports
 from flask             import Flask, url_for, redirect ,render_template, request
 from secrets           import token_bytes
-from json              import dumps, loads
+from json              import loads
 from os.path           import exists
 from base64            import b64decode
 from pygrok            import Grok
