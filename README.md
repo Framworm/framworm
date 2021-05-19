@@ -12,12 +12,14 @@ graph
             ACT["3 - Actions diverses"]
             DIS ==> ATT ==> ACT ==> |"Rebouclage"| DIS
         end
-        LOGS[(Pile de logs)]
-        DIS -.-> |"Stockage des logs"| LOGS
-        ATT -.-> |"Stockage des logs"| LOGS
-        ACT -.-> |"Stockage des logs"| LOGS
+        subgraph  
+            LOGDIS[(Pile de logs inhérents<br>à dissimulations)]
+            LOGATT[(Pile de logs inhérents<br>à attaques)]
+            LOGACT[(Pile de logs inhérents<br>à actions diverses)]
+        end
+        DIS -.-> |"Stockage des logs"| LOGDIS
+        ATT -.-> |"Stockage des logs"| LOGATT
+        ACT -.-> |"Stockage des logs"| LOGACT
     end
-
 ```
 Les composants *Dissimulations*, *Attaques* et *Actions diverses* sont des modules codés par l'utilisateur.
-
