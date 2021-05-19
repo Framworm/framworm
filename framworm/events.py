@@ -62,7 +62,8 @@ class Events():
         if exists(path):
             return False
         else:
-
+            open(path, "w")
+            return True
 
     def stop(self):
         """
