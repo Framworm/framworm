@@ -1,0 +1,26 @@
+---
+version: "3.2"
+services:
+    entry:
+        image: "entry_vuln"
+        build: 
+            context:    "."
+            dockerfile: "Dockerfile_entry"
+        networks:
+            default:
+                ipv4_address: "192.168.200.2"    
+    vuln1:
+        image: "ssh_vuln"
+        build: 
+            context:    "."
+            dockerfile: "Dockerfile_ssh"
+        networks:
+            default:
+                ipv4_address: "192.168.200.3"
+
+networks:
+    default:
+        ipam:
+            driver: "default"
+            config:
+                - subnet: "192.168.200.0/24"
