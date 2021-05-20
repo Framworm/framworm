@@ -1,6 +1,2 @@
-test
 pass
-bonjour
-chien
 user
-passwords

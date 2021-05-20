@@ -140,12 +140,27 @@
             }
         }
         </style>
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+setInterval(                               
+  function() {
+    $.ajax({
+        type: 'GET',
+        url: '{{ site_root }}' + '/get_all_logs', 
+        success: function(data) {
+                $("#table").html(data);                              
+            }
+    });
+  },
+  2000);                                 
+</script>
     </head>
     <body>
         <h1>Accueil visualisation Framworm</h1>
 
         <h2>Visualisation logs</h2>
 
+<div id="table">
 <div class="table-wrapper">
     <table class="fl-table">
         <thead>
@@ -172,6 +187,6 @@
         {% endfor%}
         <tbody>
     </table>
-</div>
+</div></div>
     </body>
 </html>

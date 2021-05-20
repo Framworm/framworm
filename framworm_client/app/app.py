@@ -39,7 +39,7 @@ def root():
 
 @app.route("/index.html")
 def index():
-    return render_template("index.html.j2", logs=get_logs())
+    return render_template("index.html.j2", logs=get_logs(), site_root="http://192.168.200.1:8000")
 
 @app.route("/get", methods=["POST"])
 def get():
@@ -47,3 +47,37 @@ def get():
         data = loads(b64decode(request.get_data()).decode())
         push_logs(data)
         return ""
+
+@app.route("/get_all_logs")
+def get_all_logs():
+    l = get_logs()
+    data = ""
+    for element in l:
+        data += f"""
+    <tr>
+            <td>{ element["type"] }</td>
+            <td>{ element["severity"] }</td>
+            <td>{ element["timestamp"] }</td>
+            <td>{ element["ip"] }</td>
+            <td>{ element["host"] }</td>
+            <td>{ element["data"] }</td>
+        </tr>"""
+    html = f"""    <div class="table-wrapper">
+<table class="fl-table">
+        <thead>
+        <tr>
+            <th>Type</th>
+            <th>Sévérité</th>
+            <th>Timestamp</th>
+            <th>IP</th>
+            <th>Hôte</th>
+            <th>Contenu</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {data}
+        <tbody>
+    </table></div>
+"""
+    return html

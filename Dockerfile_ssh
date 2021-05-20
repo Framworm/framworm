@@ -7,7 +7,6 @@ RUN useradd -rm -d /home/ubuntu -s /bin/bash -g root -G sudo -u 1000 user
 RUN sed -i "s/.*PermitRootLogin.*/PermitRootLogin yes/g" /etc/ssh/sshd_config
 RUN echo 'user:pass' | chpasswd
 RUN service ssh start
-COPY . /tmp/framworm
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
